@@ -5,26 +5,107 @@
    <head>
       <meta charset = "utf-8">
       <title></title>
+      <link rel="stylesheet" href="game.css">
       <style type = "text/css">
          canvas { border: 1px solid black; }
       </style>
-	   <script> </script>
+      <script src="jquery-1.10.2.min.js"></script>
+      <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+	   <script src="game.js"> </script>
    </head>
    <body>
-      <div id="landing">
-         
-      </div>
-      <div id="loggin" style="display: none;">
+       <img id="logo" src="logo.png" />
+       <div id="landing" class="page">
+           <br /><br /><br />
+           Welcome to INSERT_GAME_NAME_HERE
+           <button id="login_b" class="menu_button">Log In</button>
+           <button id="register_b" class="menu_button">Register</button>
+           <button id="about_b" class="menu_button">About</button>
+           <a>
+               Disclaimer:
 
-      </div>
-      <div id="register" style="display: none;">
-         
-      </div>
+               The information provided on this website by ShaviKent Studios ("the Company") is for general informational purposes only. While we make every effort to ensure that the information presented is accurate, we cannot guarantee its completeness, reliability, or suitability for any particular purpose.
 
-      <div id="game" style="display: none;">
-         <canvas id = "theCanvas" width = "480" height = "600"></canvas> 
-         <p><input id = "startButton" type = "button" value = "Start Game">
-         </p>
-      </div>
+               The content on this website is not intended to be a substitute for professional legal, financial, or other advice. Users of this website should seek appropriate professional advice before taking any action based on the information provided herein.
+
+               The Company does not warrant that the website will be available at all times or that access to the website will be uninterrupted or error-free. The Company shall not be liable for any loss or damage whatsoever arising out of or in connection with the use of this website or any information contained herein.
+
+               Links to third-party websites or resources provided on this website are for convenience only and do not constitute an endorsement by the Company. The Company shall not be responsible for the content or accuracy of any third-party websites or resources.
+
+               By accessing or using this website, you agree to indemnify and hold harmless the Company, its directors, officers, employees, and agents from and against any claims, actions, suits, or proceedings, as well as any and all losses, liabilities, damages, costs, and expenses (including reasonable attorneys' fees) arising out of or in connection with your use of this website.
+
+               The Company reserves the right to modify, amend, or update this disclaimer at any time without prior notice. By continuing to use this website, you agree to be bound by any such modifications, amendments, or updates.
+           </a>
+       </div>
+       <div id="login" class="page" style="display: none;">
+           <form>
+               <button class="close-button">&times;</button>
+               <label for="username">Username:</label>
+               <input type="text" id="username" name="username" required> &nbsp;
+               <label for="password">Password:</label>
+               <input type="password" id="password" name="password" required>
+               <br /><br />
+               <button id="login_submit" type="submit"><span>Login</span></button>
+           </form>
+       </div>
+
+       <div id="register" class="page" style="display: none;">
+           <button class="close-button">&times;</button>
+           <br />
+           <form class="register_form">
+               <div class="register_row">
+                   <label for="input-1" style="float:left;">Username:</label>
+                   <input type="text" id="userReg" class="regField" name="" style="float:right;" required>
+               </div>
+               <br />
+               <div class="register_row">
+                   <label for="input-1" style="float:left;">Password:</label>
+                   <input type="password" id="pw1Reg" name="" style="float:right;" required>
+               </div>
+               <br />
+               <div class="register_row">
+                   <label for="input-1" style="float:left;">Confirm Password:</label>
+                   <input type="password" id="pw2Reg" name="" style="float:right;" required>
+               </div>
+               <br />
+               <div class="register_row">
+                   <label for="input-1" style="float:left;">First Name:</label>
+                   <input type="text" id="fnameReg" name="" style="float:right;" required>
+               </div>
+               <br />
+               <div class="register_row">
+                   <label for="input-1" style="float:left;">Last Name:</label>
+                   <input type="text" id="lnameReg" name="" style="float:right;" required>
+               </div>
+               <br />
+               <div class="register_row">
+                   <label for="input-1" style="float:left;">Email:</label>
+                   <input type="text" id="emailReg" name="" style="float:right;" required>
+               </div>
+               <br>
+               <div class="register_row">
+                   <button id="register_submit" type="submit"><span>register</span></button>
+               </div>
+               <br />
+           </form>
+       </div>
+
+       <div id="game" class="page" style="display: none;">
+           <canvas id="theCanvas" width="480" height="600"></canvas>
+           <p>
+               <input id="startButton" type="button" value="Start Game">
+           </p>
+       </div>
+
+       <!-- The Modal -->
+       <div id="myModal" class="modal">
+
+           <!-- Modal content -->
+           <div class="modal-content">
+               <span class="close">&times;</span>
+               <p>Some text in the Modal..</p>
+           </div>
+
+       </div>
    </body>
 </html>
