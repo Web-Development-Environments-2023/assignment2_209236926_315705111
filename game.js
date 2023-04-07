@@ -123,6 +123,8 @@ $(document).ready(function () {
             });
             if(pw1 == user["password"]){
                 window.alert("you are logged in");
+                $('#login').fadeOut();
+                $('#game').delay(500).show(0);
             }
             else{
                 window.alert(user);
