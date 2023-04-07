@@ -123,6 +123,8 @@ $(document).ready(function () {
             });
             if(pw1 == user["password"]){
                 window.alert("you are logged in");
+                $('#login').fadeOut();
+                $('#game').delay(500).show(0);
             }
             else{
                 window.alert(user);
@@ -153,4 +155,36 @@ $(document).ready(function () {
             modal.style.display = "none";
         }
     })
+
+
+    var canvas = document.getElementById("theCanvas");
+    var ctx = canvas.getContext("2d");
+    var startButton = document.getElementById("startButton");
+
+    // Set up the game state
+    var x = 0;
+
+    // Set the refresh rate (in milliseconds)
+    var refreshRate = 200;
+
+    // Define the game loop function
+    function gameLoop() {
+        if (x != 0){return}
+        // Clear the canvas
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        // Draw the game state
+        ctx.fillRect(x, 50, 50, 50);
+
+        // Update the game state
+        x += 5;
+
+        // Schedule the next frame
+        setTimeout(gameLoop, refreshRate);
+        startButton.display = "none"
+    }
+
+    // Start the game loop
+    startButton.onclick = gameLoop;
 });
+
