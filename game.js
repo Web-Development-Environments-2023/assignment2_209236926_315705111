@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    var users = [];
+    let users = [{username:"p",password:"testuser",first:"test",last:"test",email:"email@email.email"}];
     $('#logo').animate({opacity: 0.01}, 500, function () {
 
         $(this).hide();
@@ -9,6 +9,7 @@ $(document).ready(function () {
     $('#login_b').click(function(){
         $('#landing').fadeOut();
         $('#login').delay(500).show(0);
+        console.log(users);
     });
     $('#register_b').click(function(){
         $('#landing').fadeOut();
@@ -19,7 +20,6 @@ $(document).ready(function () {
     var pwok = false;
     var fnok = false;
     var lnok = false;
-    var emailok = false;
     $('#pw1Reg').keyup(function(){
         let pw1 = $('#pw1Reg').val().trim();
         if(pw1.length < 8){
@@ -68,27 +68,44 @@ $(document).ready(function () {
             lnok = true;
         }
     });
+    (function() {
+        $('form > input').keyup(function() {
+            if (pwok && fnok && lnok)
+            {
+                $('#register_submit').removeAttr('disabled');
+            } 
+           else 
+            {
+                $('#register_submit').attr('disabled', 'disabled');
+            }
+        });
+        })()
+    function user(username,password,first,last,email){
+        this.username = username;
+        this.password = password;
+        this.first = first;
+        this.last = last;
+        this.email = email
+    }
     $('#register_submit').click(function(){
         let uname = $('#userReg').val();
         let pw1 = $('#pw1Reg').val().trim();
-        let fname = $('#fnameReg').val;
-        let lname = $('#lnameReg').val;
-        let email = $('#emailReg').val;
-        // if(email.includes("@")){
-        //     emailok = true;
-        // }
-        console.log(pwok);
-        console.log(fnok);
-        console.log(lnok);
-        console.log(emailok);
+        let fname = $('#fnameReg').val().trim();
+        let lname = $('#lnameReg').val().trim();
+        let email = $('#emailReg').val().trim();
 
-        if (pwok && fnok && lnok){
-            let obj = {"uname":uname,"password":pw1,"fname":fname,"lname":lname,"email":email};
+
+        if (pwok == true && fnok == true && lnok == true){
+            // let obj = new user(uname,pw1,fname,lname,email);
+            let obj = {username:uname,password:pw1,first:fname,last:lname,email:email};
+            console.log(email);
             users.push(obj);
             console.log(users);
+            $('#register').fadeOut();
+            $('#landing').delay(500).show(0);
         }
         else{
-            console.log("attempt to register failed");
+            window.alert("attempt to register failed");
         }
         
     });
@@ -97,9 +114,11 @@ $(document).ready(function () {
         let pw1 = $('#password').val().trim();
         let user = "pishoto";
         if (uname && pw1){
+            console.log("hallo");
             users.forEach(element => {
-                if(element["uname"] == uname){
-                    let user = element;
+                if(element["username"] == uname){
+                    console.log("hello");
+                    user = element;
                 }
             });
             if(pw1 == user["password"]){
@@ -129,4 +148,9 @@ $(document).ready(function () {
         modal.style.display = "none";
     }
     }
+    document.addEventListener('keydown',function(event){
+        if(event.key === "Escape"){
+            modal.style.display = "none";
+        }
+    })
 });
