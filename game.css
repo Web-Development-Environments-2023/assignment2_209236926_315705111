@@ -5,6 +5,7 @@
 }
 body{
     background-color:rgb(194, 15, 194);
+    align-content: center;
 }
 #login {
     display: flex;
@@ -36,8 +37,16 @@ body{
     margin-bottom: 5%;
     display: block;
 }
+#logo_container{
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 65%;
+}
 #logo{
-    position:absolute;
+    margin: 0 auto;
+    width: 100%;
 }
 a{
     line-height: 0.1;
