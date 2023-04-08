@@ -3,7 +3,6 @@ $(document).ready(function () {
     var canvas = document.getElementById("theCanvas");
     var ctx = canvas.getContext("2d");
     var startButton = document.getElementById("startButton");
-
     // Set up the game state
     var y = canvas.height-50;
     var x = 524/2;
@@ -15,10 +14,10 @@ $(document).ready(function () {
     var weaponTimer = 0;
     var trigger = false;
     hero.src = "assets/Ship_1.png";
-    enemy.scr = "assets/Ship_5.png"
-    bg.src = "assets/space_bg.jpg"
-    fProj.src = "assets/f_projectile.webp"
-    eProj.src = "assets/e_projectile.png"
+    enemy.src = "assets/Ship_5.png";
+    bg.src = "assets/space_bg.jpg";
+    fProj.src = "assets/f_projectile.webp";
+    eProj.src = "assets/e_projectile.png";
 
     var start = false;
     var u = 0;
@@ -28,7 +27,23 @@ $(document).ready(function () {
     var enemyShotOne = {x:0,y:0,active:false}
     var enemyShotTwo = {x:0,y:0,active:false}
     var heroShots = [];
+    var enemyBox = new Array(5);
+    const eboxW = 250;
+    const eboxH = 200;
+    var eboxX = 0;
+    var eboxY = 0;
 
+    var movei = 0;
+    for (let i = 0; i < enemyBox.length; i++) {
+        enemyBox[i] = new Array(4);
+    }
+    for (let i = 0; i < enemyBox.length; i++) {
+        for (let j = 0; j < enemyBox[0].length; j++) {
+            enemyBox[i][j] = true;
+        }
+        
+    }
+    
     // Set the refresh rate (in milliseconds)
     var refreshRate = 5;
     // Define the game loop function
@@ -39,7 +54,67 @@ $(document).ready(function () {
         ctx.drawImage(bg, 0, 0, canvas.width, canvas.height);
 
         // Draw the game state
-
+        for (let i = 0; i < enemyBox.length; i++) {
+            for (let j = 0; j < enemyBox[0].length; j++) {
+                if(enemyBox[i][j]){
+                    ctx.drawImage(enemy,eboxX + i*50,eboxY + j*50);
+                }
+            }
+        }
+        // const movement = ["r","d","l","u","rd","up","ld","u"];
+        switch (movei){
+            case 0:
+                // console.log(Math.floor(Math.random(8)*10));
+                eboxX += 0.5;
+                if(eboxX +250 >= 560){
+                    movei += 1;
+                }
+                break;
+            case 1:
+                eboxY += 0.5;
+                if(eboxY +200 >= 400){
+                    movei += 1;
+                }
+                break;
+            case 2:
+                eboxX -= 0.5;
+                if(eboxX < 0){
+                    movei += 1;
+                }
+                break;
+            case 3:
+                eboxY -= 0.5;
+                if(eboxY < 0){
+                    movei += 1;
+                }
+                break;
+            case 4:
+                eboxX += 0.5;
+                eboxY += 0.5;
+                if(eboxX +250 >= 560 || eboxY +200 >= 400){
+                    movei += 1;
+                }
+                break;
+            case 5:
+                eboxY -= 0.5;
+                if(eboxY < 0){
+                    movei += 1;
+                }
+                break;
+            case 6:
+                eboxX -= 0.5;
+                eboxY -= 0.5;
+                if(eboxX <0 || eboxY < 0){
+                    movei += 1;
+                }
+                break;
+            case 7:
+                eboxY -= 0.5;
+                if(eboxY < 0){
+                    movei = 0;
+                }
+                break;
+        }
         // moving logic
         y+=(d-u);
         x+=(r-l);
