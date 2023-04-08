@@ -12,6 +12,7 @@ $(document).ready(function () {
     var fProj = new Image();
     var eProj = new Image();
     var boom = new Audio("assets/boom.wav");
+    boom.volume = 0.2;
     var weaponTimer = 0;
     var weaponCooldown = 100;
     var trigger = false;
@@ -59,7 +60,17 @@ $(document).ready(function () {
 
         //check for collisions
         for (const eShot of enemyShots){
-            if (eShot.active && detectHeroCollision(x,y,eShot.x,eShot.y)){lives-=1; eShot.active=false; boom.play()}
+            if (eShot.active && detectCollision(x,y,eShot.x,eShot.y)){lives-=1; eShot.active=false; boom.play()}
+        }
+        for (const hShot of heroShots){
+            for (let i = 0; i < enemyBox.length; i++) {
+                for (let j = 0; j < enemyBox[0].length; j++) {
+                    if(enemyBox[i][j] && detectCollision(eboxX + i*50,eboxY + j*50,hShot.x, hShot.y)){
+                        enemyBox[i][j] = false;
+                        hShot.kill = true;
+                    }
+                }
+            }
         }
         // Draw the game state
         for (let i = 0; i < enemyBox.length; i++) {
@@ -67,6 +78,12 @@ $(document).ready(function () {
                 if(enemyBox[i][j]){
                     ctx.drawImage(enemy,eboxX + i*50,eboxY + j*50);
                 }
+            }
+        }
+        for (const eShot of enemyShots){
+            if (eShot.active){
+                eShot.y+=1.5;
+                ctx.drawImage(eProj, eShot.x, eShot.y)
             }
         }
         // const movement = ["r","d","l","u","rd","up","ld","u"];
@@ -143,15 +160,15 @@ $(document).ready(function () {
             else if (r&&x!=525) {velocity = 1}
             else if (l&&x!=0) {velocity = -1}
             else {velocity = 0}
-            const temp = {X:x+10, Y:y-50, v:velocity, kill:false}
+            const temp = {x:x+10, y:y-50, v:velocity, kill:false}
             heroShots.push(temp)
         }
         
         for (const shot of heroShots) {
-            shot.X+=shot.v;
-            shot.Y-=5;
-            ctx.drawImage(fProj,shot.X,shot.Y)
-            if( shot.Y<0 || shot.X>=540 || shot.X<0 || shot.Y>860){shot.kill = true}
+            shot.x+=shot.v;
+            shot.y-=5;
+            ctx.drawImage(fProj,shot.x,shot.y)
+            if( shot.y<0 || shot.x>=540 || shot.x<0 || shot.y>860){shot.kill = true}
         }
         heroShots = heroShots.filter(shot => !shot.kill)
         
@@ -205,7 +222,7 @@ $(document).ready(function () {
     // Start the game loop
     startButton.onclick = gameLoop;
     function a(){}
-    function detectCollision(thisX, thisY, thisWidth, thisHeight, otherX, otherY, otherWidth, otherHeight) {
+    function detectEnemyCollision(ex, ey, px, py) {
         // Check for horizontal overlap
         if (thisX + thisWidth >= otherX && thisX <= otherX + otherWidth) {
           // Check for vertical overlap
@@ -217,18 +234,18 @@ $(document).ready(function () {
         return false;
       }
     
-      function detectHeroCollision(hx,hy,px,py){      
-        // Check for collision
-        if (
-          px + 14 >= hx &&
-          px <= hx + 32 &&
-          py + 36 >= hy &&
-          py <= hy + 32
-          ){
-          return true; // collision detected
-          } 
-        else {
-          return false;
-          }
+    function detectCollision(hx,hy,px,py){      
+    // Check for collision
+    if (
+        px + 14 >= hx &&
+        px <= hx + 32 &&
+        py + 36 >= hy &&
+        py <= hy + 32
+        ){
+        return true; // collision detected
+        } 
+    else {
+        return false;
         }
+    }
 });
