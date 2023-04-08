@@ -29,10 +29,11 @@ $(document).ready(function () {
     var d = 0;
     var l = 0;
     var r = 0;
-    var enemyShots = [{x:0,y:0,active:false}, {x:0,y:0,active:false}]
+    var enemyShots = []
     var whatshot = 0;
     var heroShots = [];
     var enemyBox = new Array(5);
+    var enemiesCount = 20;
     const eboxW = 250;
     const eboxH = 200;
     var eboxX = 0;
@@ -50,9 +51,16 @@ $(document).ready(function () {
     }
     // Set the refresh rate (in milliseconds)
     var refreshRate = 0;
+    var startTime;
+    var speedup = 1;
+
+    
     // Define the game loop function
     function gameLoop() {
-        
+
+        if (!startTime){startTime = performance.now();}
+        speedup = 1 + Math.floor((performance.now() - startTime)/1000/5)*0.3
+        if (speedup > 2.2) {speedup = 2.2; console.log("max")}
         // Clear the canvas
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         ctx.drawImage(bg, 0, 0, canvas.width, canvas.height);
@@ -60,7 +68,13 @@ $(document).ready(function () {
 
         //check for collisions
         for (const eShot of enemyShots){
-            if (eShot.active && detectCollision(x,y,eShot.x,eShot.y)){lives-=1; eShot.active=false; boom.play()}
+            if (eShot.active && detectCollision(x,y,eShot.x,eShot.y)){
+                lives-=1; 
+                eShot.active=false;
+                var boom = new Audio("assets/boom.wav");
+                boom.volume = 0.2;
+                boom.play()
+            }
         }
         for (const hShot of heroShots){
             for (let i = 0; i < enemyBox.length; i++) {
@@ -85,73 +99,84 @@ $(document).ready(function () {
         }
         for (const eShot of enemyShots){
             if (eShot.active){
-                eShot.y+=1.5;
+                eShot.y+=1*speedup;
                 ctx.drawImage(eProj, eShot.x, eShot.y)
+                if( eShot.y<0 || eShot.x>=540 || eShot.x<0 || eShot.y>860){eShot.active = false}
             }
         }
         // const movement = ["r","d","l","u","rd","up","ld","u"];
+        
         switch (movei){
             case 0:
                 // console.log(Math.floor(Math.random(8)*10));
-                eboxX += 0.5;
+                eboxX += 0.5*speedup;
                 if(eboxX +250 >= 560){
                     movei += 1;
                 }
                 break;
             case 1:
-                eboxY += 0.5;
+                eboxY += 0.5*speedup;
                 if(eboxY +200 >= 400){
                     movei += 1;
                 }
                 break;
             case 2:
-                eboxX -= 0.5;
+                eboxX -= 0.5*speedup;
                 if(eboxX < 0){
                     movei += 1;
                 }
                 break;
             case 3:
-                eboxY -= 0.5;
+                eboxY -= 0.5*speedup;
                 if(eboxY < 0){
                     movei += 1;
                 }
                 break;
             case 4:
-                eboxX += 0.5;
-                eboxY += 0.5;
+                eboxX += 0.5*speedup;
+                eboxY += 0.5*speedup;
                 if(eboxX +250 >= 560 || eboxY +200 >= 400){
                     movei += 1;
                 }
                 break;
             case 5:
-                eboxY -= 0.5;
+                eboxY -= 0.5*speedup;
                 if(eboxY < 0){
                     movei += 1;
                 }
                 break;
             case 6:
-                eboxX -= 0.5;
-                eboxY -= 0.5;
+                eboxX -= 0.5*speedup;
+                eboxY -= 0.5*speedup;
                 if(eboxX <0 || eboxY < 0){
                     movei += 1;
                 }
                 break;
             case 7:
-                eboxY -= 0.5;
+                eboxY -= 0.5*speedup;
                 if(eboxY < 0){
                     movei = 0;
                 }
                 break;
         }
-        var shiprow = Math.floor(Math.random()*3.9);
-        var shipcol = Math.floor(Math.random()*4.9);
-        console.log(shiprow);
-        console.log(shipcol);
-        while(enemyBox[shiprow][shipcol] == false){
-            console.log("hello");
-            shiprow = Math.floor(Math.random(3)*10);
-            shipcol = Math.floor(Math.random(4)*10);
+        enemyShots = enemyShots.filter(shot => shot.active)
+        if (enemiesCount != 0 && enemyShots.length < 2){
+            var flag = false;
+            for (const shot of enemyShots){if (shot.y<600) {flag = true;}}
+            if (!flag){
+                var shiprow = Math.floor(Math.random()*3.9);
+                var shipcol = Math.floor(Math.random()*4.9);
+                console.log(shiprow);
+                console.log(shipcol);
+                while(enemyBox[shiprow][shipcol] == false){
+                    shiprow = Math.floor(Math.random(3)*3.9);
+                    shipcol = Math.floor(Math.random(4)*4.9);
+                }
+                enemyShots.push({x:eboxX + shipcol*50,y:eboxY + shiprow*50, active:true})
+            }
         }
+
+
         
         // moving logic
         y+=(d-u)*speed;
@@ -181,8 +206,8 @@ $(document).ready(function () {
         }
         
         for (const shot of heroShots) {
-            shot.x+=shot.v;
-            shot.y-=5;
+            shot.x+=shot.v*speedup;
+            shot.y-=5*Math.sqrt(speedup);
             ctx.drawImage(fProj,shot.x,shot.y)
             if( shot.y<0 || shot.x>=540 || shot.x<0 || shot.y>860){shot.kill = true}
         }
@@ -190,8 +215,12 @@ $(document).ready(function () {
         
         // Schedule the next frame
         
-        setTimeout(gameLoop, refreshRate);
-        startButton.hidden = true;
+        if (lives != 0){
+            setTimeout(gameLoop, refreshRate);
+            startButton.hidden = true;
+        }
+        //else {gameOver();}
+
 
     }
     // Check if the key has been pressed, if so signal the main loop that the ship is moving in a direction
