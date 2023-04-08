@@ -68,6 +68,9 @@ $(document).ready(function () {
                     if(enemyBox[i][j] && detectCollision(eboxX + i*50,eboxY + j*50,hShot.x, hShot.y)){
                         enemyBox[i][j] = false;
                         hShot.kill = true;
+                        var boom = new Audio("assets/boom.wav");
+                        boom.volume = 0.1;
+                        boom.play()
                     }
                 }
             }
@@ -172,6 +175,9 @@ $(document).ready(function () {
             else {velocity = 0}
             const temp = {x:x+10, y:y-50, v:velocity, kill:false}
             heroShots.push(temp)
+            var shoot = new Audio("assets/shoot.wav");
+            shoot.volume = 0.1;
+            shoot.play();
         }
         
         for (const shot of heroShots) {
