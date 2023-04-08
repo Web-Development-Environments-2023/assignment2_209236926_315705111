@@ -30,6 +30,7 @@ $(document).ready(function () {
     var l = 0;
     var r = 0;
     var enemyShots = [{x:0,y:0,active:false}, {x:0,y:0,active:false}]
+    var whatshot = 0;
     var heroShots = [];
     var enemyBox = new Array(5);
     const eboxW = 250;
@@ -47,7 +48,6 @@ $(document).ready(function () {
         }
         
     }
-    
     // Set the refresh rate (in milliseconds)
     var refreshRate = 0;
     // Define the game loop function
@@ -140,11 +140,14 @@ $(document).ready(function () {
                 }
                 break;
         }
-        var shiprow = Math.floor(Math.random(4)*10);
-        var shipcol = Math.floor(Math.random(5)*10);
+        var shiprow = Math.floor(Math.random()*3.9);
+        var shipcol = Math.floor(Math.random()*4.9);
+        console.log(shiprow);
+        console.log(shipcol);
         while(enemyBox[shiprow][shipcol] == false){
-            shiprow = Math.floor(Math.random(4)*10);
-            shipcol = Math.floor(Math.random(5)*10);
+            console.log("hello");
+            shiprow = Math.floor(Math.random(3)*10);
+            shipcol = Math.floor(Math.random(4)*10);
         }
         
         // moving logic
