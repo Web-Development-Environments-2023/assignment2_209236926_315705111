@@ -143,6 +143,13 @@ $(document).ready(function () {
                 }
                 break;
         }
+        var shiprow = Math.floor(Math.random(4)*10);
+        var shipcol = Math.floor(Math.random(5)*10);
+        while(enemyBox[shiprow][shipcol] == false){
+            shiprow = Math.floor(Math.random(4)*10);
+            shipcol = Math.floor(Math.random(5)*10);
+        }
+        
         // moving logic
         y+=(d-u)*speed;
         x+=(r-l)*speed;
