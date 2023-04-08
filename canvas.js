@@ -37,7 +37,8 @@ $(document).ready(function () {
     const eboxH = 200;
     var eboxX = 0;
     var eboxY = 0;
-
+    var score = 0;
+    var myScore;
     var movei = 0;
     for (let i = 0; i < enemyBox.length; i++) {
         enemyBox[i] = new Array(4);
@@ -57,7 +58,26 @@ $(document).ready(function () {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         ctx.drawImage(bg, 0, 0, canvas.width, canvas.height);
 
-
+        function component(width, height, color, x, y, type) {
+            this.type = type;
+            this.width = width;
+            this.height = height;
+            this.speedX = 0;
+            this.speedY = 0;
+            this.x = x;
+            this.y = y;
+            this.update = function() {
+              if (this.type == "text") {
+                ctx.font = this.width + " " + this.height;
+                ctx.fillStyle = color;
+                ctx.fillText(this.text, this.x, this.y);
+              } else {
+                ctx.fillStyle = color;
+                ctx.fillRect(this.x, this.y, this.width, this.height);
+              }
+            }
+        }
+        myScore = new component("30px", "Consolas", "blue", 350, 40, "text");
         //check for collisions
         for (const eShot of enemyShots){
             if (eShot.active && detectCollision(x,y,eShot.x,eShot.y)){lives-=1; eShot.active=false; boom.play()}
@@ -71,10 +91,24 @@ $(document).ready(function () {
                         var boom = new Audio("assets/boom.wav");
                         boom.volume = 0.1;
                         boom.play()
+                        if(j == 3){
+                            score += 5;
+                        }
+                        if(j == 2){
+                            score += 10;
+                        }
+                        if(j == 1){
+                            score += 15;
+                        }
+                        if(j == 0){
+                            score += 20;
+                        }
                     }
                 }
             }
         }
+        myScore.text = "SCORE: " + score;
+        myScore.update();
         // Draw the game state
         for (let i = 0; i < enemyBox.length; i++) {
             for (let j = 0; j < enemyBox[0].length; j++) {
@@ -145,12 +179,9 @@ $(document).ready(function () {
         }
         var shiprow = Math.floor(Math.random()*3.9);
         var shipcol = Math.floor(Math.random()*4.9);
-        console.log(shiprow);
-        console.log(shipcol);
         while(enemyBox[shiprow][shipcol] == false){
-            console.log("hello");
-            shiprow = Math.floor(Math.random(3)*10);
-            shipcol = Math.floor(Math.random(4)*10);
+            shiprow = Math.floor(Math.random()*3.9);
+            shipcol = Math.floor(Math.random()*4.9);
         }
         
         // moving logic
