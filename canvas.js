@@ -197,8 +197,8 @@ $(document).ready(function () {
         var shipcol = Math.floor(Math.random()*4.9);
         while(enemyBox[shiprow][shipcol] == false){
             console.log("hello");
-            shiprow = Math.floor(Math.random(3)*10);
-            shipcol = Math.floor(Math.random(4)*10);
+            shiprow = Math.floor(Math.random()*3.9);
+            shipcol = Math.floor(Math.random()*4.9);
         }
 
 
