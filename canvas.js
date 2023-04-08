@@ -11,8 +11,12 @@ $(document).ready(function () {
     var bg = new Image();
     var fProj = new Image();
     var eProj = new Image();
+    var boom = new Audio("assets/boom.wav");
     var weaponTimer = 0;
+    var weaponCooldown = 100;
     var trigger = false;
+    var speed = 1;
+    var lives = 3;
     hero.src = "assets/Ship_1.png";
     enemy.src = "assets/Ship_5.png";
     bg.src = "assets/space_bg.jpg";
@@ -24,8 +28,7 @@ $(document).ready(function () {
     var d = 0;
     var l = 0;
     var r = 0;
-    var enemyShotOne = {x:0,y:0,active:false}
-    var enemyShotTwo = {x:0,y:0,active:false}
+    var enemyShots = [{x:0,y:0,active:false}, {x:0,y:0,active:false}]
     var heroShots = [];
     var enemyBox = new Array(5);
     const eboxW = 250;
@@ -45,7 +48,7 @@ $(document).ready(function () {
     }
     
     // Set the refresh rate (in milliseconds)
-    var refreshRate = 5;
+    var refreshRate = 0;
     // Define the game loop function
     function gameLoop() {
         
@@ -53,6 +56,11 @@ $(document).ready(function () {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         ctx.drawImage(bg, 0, 0, canvas.width, canvas.height);
 
+
+        //check for collisions
+        for (const eShot of enemyShots){
+            if (eShot.active && detectHeroCollision(x,y,eShot.x,eShot.y)){lives-=1; eShot.active=false; boom.play()}
+        }
         // Draw the game state
         for (let i = 0; i < enemyBox.length; i++) {
             for (let j = 0; j < enemyBox[0].length; j++) {
@@ -116,8 +124,8 @@ $(document).ready(function () {
                 break;
         }
         // moving logic
-        y+=(d-u);
-        x+=(r-l);
+        y+=(d-u)*speed;
+        x+=(r-l)*speed;
         if(y>=790){y=790;}
         if(y<600){y=600;}
         if(x>=525){x=525;}
@@ -129,7 +137,7 @@ $(document).ready(function () {
         // Process hero shooting logic
         if (weaponTimer>0){weaponTimer-=1}
         if (weaponTimer==0 && trigger) {
-            weaponTimer=100;
+            weaponTimer=weaponCooldown;
             let velocity = 0;
             if (l&&r){velocity = 0}
             else if (r&&x!=525) {velocity = 1}
@@ -168,6 +176,10 @@ $(document).ready(function () {
             r=1;
         }
         if (event.key === " ") {trigger = true} 
+        if (event.key === "1") {hero.src = "assets/Ship_1.png"; speed = 2; weaponCooldown = 100}
+        if (event.key === "2") {hero.src = "assets/Ship_2.png"; speed = 1; weaponCooldown = 25}
+        if (event.key === "3") {hero.src = "assets/Ship_3.png"}
+        if (event.key === "4") {hero.src = "assets/Ship_4.png"}
     })
     // Once a key is no longer pressed remove the command for the main loop that signals movement
     document.addEventListener('keyup',function(event){
@@ -184,6 +196,7 @@ $(document).ready(function () {
             r=0;
         }
         if (event.key === " ") {trigger = false} 
+
     })
 
 
@@ -203,4 +216,19 @@ $(document).ready(function () {
         }
         return false;
       }
+    
+      function detectHeroCollision(hx,hy,px,py){      
+        // Check for collision
+        if (
+          px + 14 >= hx &&
+          px <= hx + 32 &&
+          py + 36 >= hy &&
+          py <= hy + 32
+          ){
+          return true; // collision detected
+          } 
+        else {
+          return false;
+          }
+        }
 });
