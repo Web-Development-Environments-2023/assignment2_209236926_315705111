@@ -85,7 +85,7 @@ $(document).ready(function () {
               }
             }
         }
-        myScore = new component("30px", "Consolas", "blue", 350, 40, "text");
+        myScore = new component("30px", "Consolas", "red", 350, 40, "text");
         //check for collisions
         for (const eShot of enemyShots){
             if (eShot.active && detectCollision(x,y,eShot.x,eShot.y)){
@@ -100,6 +100,7 @@ $(document).ready(function () {
             for (let i = 0; i < enemyBox.length; i++) {
                 for (let j = 0; j < enemyBox[0].length; j++) {
                     if(enemyBox[i][j] && detectCollision(eboxX + i*50,eboxY + j*50,hShot.x, hShot.y)){
+                        enemiesCount-=1;
                         enemyBox[i][j] = false;
                         hShot.kill = true;
                         var boom = new Audio("assets/boom.wav");
@@ -108,13 +109,13 @@ $(document).ready(function () {
                         if(j == 3){
                             score += 5;
                         }
-                        if(j == 2){
+                        else if(j == 2){
                             score += 10;
                         }
-                        if(j == 1){
+                        else if(j == 1){
                             score += 15;
                         }
-                        if(j == 0){
+                        else if(j == 0){
                             score += 20;
                         }
                     }
