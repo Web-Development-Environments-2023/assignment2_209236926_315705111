@@ -193,12 +193,21 @@ $(document).ready(function () {
                 }
                 break;
         }
-        var shiprow = Math.floor(Math.random()*3.9);
-        var shipcol = Math.floor(Math.random()*4.9);
-        while(enemyBox[shiprow][shipcol] == false){
-            console.log("hello");
-            shiprow = Math.floor(Math.random()*3.9);
-            shipcol = Math.floor(Math.random()*4.9);
+        enemyShots = enemyShots.filter(shot => shot.active)
+        if (enemiesCount != 0 && enemyShots.length < 2){
+            var flag = false;
+            for (const shot of enemyShots){if (shot.y<600) {flag = true;}}
+            if (!flag){
+                var shiprow = Math.floor(Math.random()*3.9);
+                var shipcol = Math.floor(Math.random()*4.9);
+                console.log(shiprow);
+                console.log(shipcol);
+                while(enemyBox[shiprow][shipcol] == false){
+                    shiprow = Math.floor(Math.random(3)*3.9);
+                    shipcol = Math.floor(Math.random(4)*4.9);
+                }
+                enemyShots.push({x:eboxX + shipcol*50,y:eboxY + shiprow*50, active:true})
+            }
         }
 
 
