@@ -104,21 +104,21 @@
                         <div class="divider"></div>
                         <p>This ship shoots faster</p>
                         <div class="divider"></div>
-                        <button class="shipCardButton" onclick="selectType(event)">Boom</button>
+                        <button id="shipCardButton1" class="shipCardButton" onclick="selectType(event)">Boom</button>
                     </div>
                     <div id="shipCard2" class="shipCard">
                         <img src="assets/Ship_2.png" alt="Image 2" />
                         <div class="divider"></div>
                         <p>This ship moves faster</p>
                         <div class="divider"></div>
-                        <button class="shipCardButton" onclick="selectType(event)">Zoom</button>
+                        <button id="shipCardButton2" class="shipCardButton" onclick="selectType(event)">Zoom</button>
                     </div>
                     <div id="shipCard3" class="shipCard">
                         <img src="assets/Ship_3.png" alt="Image 3" />
                         <div class="divider"></div>
                         <p>This ship has more HP</p>
                         <div class="divider"></div>
-                        <button class="shipCardButton" onclick="selectType(event)">Room(for error)</button>
+                        <button id="shipCardButton3" class="shipCardButton" onclick="selectType(event)">Room(for error)</button>
                     </div>
                     </div>
                 <p>Press the button you want to shoot with</p>
@@ -128,12 +128,13 @@
         </div>
 
 
-       <div id="game" class="page" style="display: none;">
-           <canvas id="theCanvas" width="480" height="600"></canvas>
-           <p>
-               <input id="startButton" type="button" value="Start Game">
-           </p>
-       </div>
+       
+        <div id="game" class="page" style="display: none;">
+            <canvas id="theCanvas" width="560" height="820"></canvas>
+            <p>
+                <input id="startButton" type="button" value="Start Game">
+            </p>
+        </div>
 
        <!-- The Modal -->
        <div id="myModal" class="modal">
