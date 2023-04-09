@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    let users = [{username:"p",password:"testuser",first:"test",last:"test",email:"email@email.email"}];
+    let users = [{username:"a",password:"a",first:"test",last:"test",email:"email@email.email"}];
     $('#logo').animate({opacity: 0.01}, 500, function () {
 
         $(this).hide();
@@ -124,13 +124,28 @@ $(document).ready(function () {
             if(pw1 == user["password"]){
                 window.alert("you are logged in");
                 $('#login').fadeOut();
-                $('#game').delay(500).show(0);
+                $('#conf').delay(500).show(0);
             }
             else{
                 window.alert(user);
             }
         } 
     });
+    //Configuration
+    var choosen;
+    $("#shootChoose").one("keydown", function(event){
+            choosen = event.key;
+            alert("your shooting now from: " + choosen);
+
+        });
+    $("#start").click(function(){
+            $('#conf').fadeOut();
+            $('#game').delay(500).show(0);
+    })
+    
+        // this.
+    
+    // var b = getElementById("shoo")
     var modal = document.getElementById("myModal");
 
     var btn = document.getElementById("about_b");

@@ -137,3 +137,12 @@ a{
         text-decoration: none;
         cursor: pointer;
     }
+#ship1{
+    background-image: url("assets/Ship_1.png");
+}
+#ship2{
+    background-image: url("assets/Ship_2.png");
+}
+#ship3{
+    background-image: url("assets/Ship_3.png");
+}
