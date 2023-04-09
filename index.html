@@ -95,14 +95,35 @@
        </div>
 
         <div id="conf" class="page" style="display: none;">
-            <p>Press the button you want to shoot with</p>
-            <button id="shootChoose">click me to choose</button>
-            <button id="start">gamu startu</button>
+
             <br>
             <div id="ships">
-            <button id="ship1">dasdas</button>&nbsp;
-            <button id="ship2">asdas</button>&nbsp;
-            <button id="ship3">asdasd</button>
+                <div class="shipCardContainer">
+                    <div id="shipCard1" class="shipCard">
+                        <img src="assets/Ship_1.png" alt="Image 1" />
+                        <div class="divider"></div>
+                        <p>This ship shoots faster</p>
+                        <div class="divider"></div>
+                        <button class="shipCardButton" onclick="selectType(event)">Boom</button>
+                    </div>
+                    <div id="shipCard2" class="shipCard">
+                        <img src="assets/Ship_2.png" alt="Image 2" />
+                        <div class="divider"></div>
+                        <p>This ship moves faster</p>
+                        <div class="divider"></div>
+                        <button class="shipCardButton" onclick="selectType(event)">Zoom</button>
+                    </div>
+                    <div id="shipCard3" class="shipCard">
+                        <img src="assets/Ship_3.png" alt="Image 3" />
+                        <div class="divider"></div>
+                        <p>This ship has more HP</p>
+                        <div class="divider"></div>
+                        <button class="shipCardButton" onclick="selectType(event)">Room(for error)</button>
+                    </div>
+                    </div>
+                <p>Press the button you want to shoot with</p>
+                <button id="shootChoose">click me to choose</button>
+                <button id="start">gamu startu</button>
             </div>
         </div>
 

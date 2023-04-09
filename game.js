@@ -122,7 +122,6 @@ $(document).ready(function () {
                 }
             });
             if(pw1 == user["password"]){
-                window.alert("you are logged in");
                 $('#login').fadeOut();
                 $('#conf').delay(500).show(0);
             }
@@ -170,6 +169,21 @@ $(document).ready(function () {
             modal.style.display = "none";
         }
     })
+
+    var typeButtons = document.querySelectorAll(".shipCardButton")
+    typeButtons.forEach(button => {
+        button.addEventListener("click", function (event) {
+            const allDivs = document.querySelectorAll(".shipCard");
+                                allDivs.forEach(div => {
+                                    div.style.backgroundColor = "white";
+                                }
+
+                                )
+                                const triggeringDiv = event.target.parentNode;
+                                triggeringDiv.style.backgroundColor = "yellow";
+        })
+    })
+
 
 
     var canvas = document.getElementById("theCanvas");
