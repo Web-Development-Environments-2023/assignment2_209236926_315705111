@@ -351,7 +351,9 @@ $(document).ready(function () {
     }
     
     var whatshot = 0;
-
+    var timerCount = 0;
+    var mins = 0;
+    var sec = 0;
 
 
 
@@ -360,6 +362,7 @@ $(document).ready(function () {
     
     // Define the game loop function
     function gameLoop() {
+        // timer()
         music.play()
         if (!startTime){startTime = performance.now();}
         speedup = 1 + Math.floor((performance.now() - startTime)/1000/5)*0.3
@@ -367,6 +370,12 @@ $(document).ready(function () {
         // Clear the canvas
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         ctx.drawImage(bg, 0, 0, canvas.width, canvas.height);
+        let scoreText = document.getElementById("score");
+        let lifes = document.getElementById("lifes");
+        let timerdis = document.getElementById("timer");
+        $('#score').show(0);
+        $('#lifes').show(0);
+        $('#timer').show(0);
 
         function component(width, height, color, x, y, type) {
             this.type = type;
@@ -377,16 +386,8 @@ $(document).ready(function () {
             this.x = x;
             this.y = y;
             this.update = function() {
-                scoreText = $("#score");
-                scoreText.html = this.text;
-                // if (this.type == "text") {
-                //     ctx.font = this.width + " " + this.height;
-                //     ctx.fillStyle = color;
-                //     ctx.fillText(this.text, this.x, this.y);
-                // } else {
-                //     ctx.fillStyle = color;
-                //     ctx.fillRect(this.x, this.y, this.width, this.height);
-                // }
+                scoreText.innerHTML = this.text;
+                lifes.innerHTML = "LIFES: " + lives;
             }
         }
         myScore = new component("30px", "Consolas", "red", 350, 40, "text");
@@ -553,30 +554,32 @@ $(document).ready(function () {
         heroShots = heroShots.filter(shot => !shot.kill)
         
         // Schedule the next frame
-        if (lives != 0 && minutes < time && score<250 && !reset){
+        if (lives != 0 && mins < time && score<250 && !reset){
             setTimeout(gameLoop, refreshRate);
+            timerCount+=1
+            if (5.5 * timerCount >= 1000)
+                {
+                    if(sec == 59){
+                        sec = 0;
+                        mins +=1
+                    }
+                    sec += 1 // decrement the timer
+                    timerCount = 0; // reset the count
+                    if(sec<10 && mins <10){
+                        timerdis.innerHTML = "Time play: 0" + mins+":0"+sec;
+                    }
+                    else{
+                        if(sec<10){
+                            timerdis.innerHTML = "Time play:" + mins+":0"+sec;
+                        }
+                        else{
+                            timerdis.innerHTML = "Time play:" + mins+":"+sec;
+                        }
+                    }
+                } // end if
             startButton.hidden = true;
         }
         else if (!reset){done = true;}
-        // if(score == 250){
-        //     gameOver(score,minutes,lives);
-        // }
-
-        timer = () =>{
-
-            timeInterval = setInterval(function() {
-                seconds += 1;
-                if(seconds == 60){
-                    minutes += 1;
-                }
-                if(minutes == time){
-                    seconds = 0;
-                    minutes = 0;
-                    done = true;
-                    clearInterval(timeInterval);
-                }
-            }, 1000);
-        }
         
         if(done){
             gameOver(score,minutes,lives);
@@ -611,8 +614,9 @@ $(document).ready(function () {
         })
         $('#game').fadeOut();
         $('#scoreboard').delay(500).show(0);
-
-
+        $('#score').hide(0);
+        $('#lifes').hide(0);
+        $('#timer').hide(0);
 
     }
     $("#resetGame").click(function(){
@@ -622,13 +626,15 @@ $(document).ready(function () {
         $('#conf').delay(500).show(0);
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         score = 0;
-        minutes = 0;
+        mins = 0;
+        sec = 0;
     });
     $("#newGame").click(function(){
         $('#scoreboard').fadeOut();
         $('#conf').delay(500).show(0);
         score = 0;
-        minutes = 0;
+        mins = 0;
+        sec = 0;
     });
     
     function detectCollision(hx,hy,px,py){ // Check for collision
