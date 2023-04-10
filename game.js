@@ -1,4 +1,9 @@
 $(document).ready(function () {
+    window.addEventListener("keydown", function (event) {
+        if (event.key === "ArrowUp" || event.key === "ArrowDown" || event.key === "ArrowLeft" || event.key === "ArrowRight") {
+            event.preventDefault();
+        }
+    });
     let users = [{username:"a",password:"a",first:"test",last:"test",email:"email@email.email"}];
     $('#logo').animate({opacity: 0.01}, 500, function () {
 
@@ -237,8 +242,6 @@ $(document).ready(function () {
     var heroShots;
     var enemyBox;
     var enemiesCount;
-    const eboxW = 250;
-    const eboxH = 200;
     var eboxX;
     var eboxY;
     var score;
