@@ -253,10 +253,13 @@ $(document).ready(function () {
     var speedup;
     var seconds;
     var minutes;
+    var music;
+    var reset;
     function loadInitialState(){ //everything that is "ill only need to load this once"
         canvas = document.getElementById("theCanvas");
         ctx = canvas.getContext("2d");
-        
+        music = new Audio("assets/music.mp3");
+        music.volume = 0.3;
         hero = new Image();
         enemy = new Image();
         bg = new Image();
@@ -310,6 +313,8 @@ $(document).ready(function () {
     }
 
     function setGameStartVars(){
+        reset = false;
+        music.currentTime = 0;
         y = canvas.height-50;
         x = 524/2;
         weaponTimer = 0;
@@ -347,7 +352,7 @@ $(document).ready(function () {
     
     // Define the game loop function
     function gameLoop() {
-
+        music.play()
         if (!startTime){startTime = performance.now();}
         speedup = 1 + Math.floor((performance.now() - startTime)/1000/5)*0.3
         if (speedup > 2.2) {speedup = 2.2; console.log("max")}
@@ -538,11 +543,11 @@ $(document).ready(function () {
         heroShots = heroShots.filter(shot => !shot.kill)
         
         // Schedule the next frame
-        if (lives != 0 && minutes < time && score<250){
+        if (lives != 0 && minutes < time && score<250 && !reset){
             setTimeout(gameLoop, refreshRate);
             startButton.hidden = true;
         }
-        else {done = true;}
+        else if (!reset){done = true;}
         // if(score == 250){
         //     gameOver(score,minutes,lives);
         // }
@@ -562,6 +567,7 @@ $(document).ready(function () {
                 }
             }, 1000);
         }
+        
         if(done){
             gameOver(score,minutes,lives);
             ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -569,6 +575,7 @@ $(document).ready(function () {
 
     }
     function gameOver(score,time,lifes){
+        music.pause();
         scores.push(score);
         scores.sort();
         var table = document.getElementById("scoretable");
@@ -594,7 +601,15 @@ $(document).ready(function () {
 
 
     }
-
+    $("#resetGame").click(function(){
+        reset = true;
+        $('#game').fadeOut();
+        music.pause();
+        $('#conf').delay(500).show(0);
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        score = 0;
+        minutes = 0;
+    });
     $("#newGame").click(function(){
         $('#scoreboard').fadeOut();
         $('#conf').delay(500).show(0);
