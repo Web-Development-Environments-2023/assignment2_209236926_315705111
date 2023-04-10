@@ -517,13 +517,13 @@ $(document).ready(function () {
 
 
     }
-    function newGame(){
-        $('#scoreboard').fadeOut();
-        $('#conf').delay(500).show(0);
-        score = 0;
-        minutes = 0;
-    }
-    $("#newGame").click(newGame());
+    // function newGame(){
+    //     $('#scoreboard').fadeOut();
+    //     $('#conf').delay(500).show(0);
+    //     score = 0;
+    //     minutes = 0;
+    // }
+    // $("#newGame").click(newGame());
     // Check if the key has been pressed, if so signal the main loop that the ship is moving in a direction
     function setupGameListeners(){
         document.addEventListener('keydown',function(event){

@@ -188,9 +188,21 @@ img {
 button {
     padding: 10px;  
 }
-/* #scoretable{
-    border: 1px solid black;
-} */
-table, td {
+#scoreboard{
+    background-image: url(assets/header_logo.gif);
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 50%;
+    margin-left: 25%;
+    /* height: max-content; */
+}
+#scoretable{
+    margin: auto;
+    width: 50%;
+    height: fit-content;
+    /* margin-left: 45%; */
+}
+
+table, td,th {
     border: 1px solid black;
 }
