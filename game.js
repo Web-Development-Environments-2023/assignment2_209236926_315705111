@@ -126,6 +126,7 @@ $(document).ready(function () {
             if(pw1 == curruser["password"]){
                 $('#login').fadeOut();
                 $('#conf').delay(500).show(0);
+                loadInitialState();
             }
             else{
                 window.alert(curruser);
@@ -141,10 +142,12 @@ $(document).ready(function () {
         });
     $("#start").click(function(){
         if(!lives){return;}
+        setGameStartVars()
         $('#conf').fadeOut();
         $('#game').delay(500).show(0);
         start = true;
-        setupGameListeners();
+        startButton.hidden = false;
+
     })
     let timeInterval;
     var time = $('#gametime').find(":selected").val();
@@ -211,70 +214,145 @@ $(document).ready(function () {
         lives = 4;
     })
 
-
-
-    var canvas = document.getElementById("theCanvas");
-    var ctx = canvas.getContext("2d");
-    var startButton = document.getElementById("startButton");
-    // Set up the game state
-    var y = canvas.height-50;
-    var x = 524/2;
-    var hero = new Image();
-    var enemy = new Image();
-    var bg = new Image();
-    var fProj = new Image();
-    var eProj = new Image();
-    var boom = new Audio("assets/boom.wav");
-    boom.volume = 0.2;
-    var weaponTimer = 0;
+    startButton = document.getElementById("startButton");
+    var canvas;
+    var ctx;
+    var startButton;
+    var y;
+    var x;
+    var hero;
+    var enemy;
+    var bg;
+    var fProj;
+    var eProj;
+    var boom;
+    var weaponTimer;
     var weaponCooldown;
-    var trigger = false;
+    var trigger;
     var speed;
     var lives;
-    //hero.src = "assets/Ship_1.png";
-    enemy.src = "assets/Ship_5.png";
-    bg.src = "assets/space_bg.jpg";
-    fProj.src = "assets/f_projectile.webp";
-    eProj.src = "assets/e_projectile.png";
-
-    var start = false;
-    var done = false;
-    var u = 0;
-    var d = 0;
-    var l = 0;
-    var r = 0;
-    var enemyShots = []
-    var whatshot = 0;
-    var heroShots = [];
-    var enemyBox = new Array(5);
-    var enemiesCount = 20;
+    var done;
+    var u;
+    var d;
+    var l;
+    var r;
+    var enemyShots;
+    var heroShots;
+    var enemyBox;
+    var enemiesCount;
     const eboxW = 250;
     const eboxH = 200;
-    var eboxX = 0;
-    var eboxY = 0;
-    var score = 0;
+    var eboxX;
+    var eboxY;
+    var score;
     var myScore;
-    var movei = 0;
-    var scores = [];
-    for (let i = 0; i < enemyBox.length; i++) {
-        enemyBox[i] = new Array(4);
-    }
-    for (let i = 0; i < enemyBox.length; i++) {
-        for (let j = 0; j < enemyBox[0].length; j++) {
-            enemyBox[i][j] = true;
+    var movei;
+    var scores;
+    var refreshRate;
+    var startTime;
+    var speedup;
+    var seconds;
+    var minutes;
+    var music;
+    var reset;
+    function loadInitialState(){ //everything that is "ill only need to load this once"
+        canvas = document.getElementById("theCanvas");
+        ctx = canvas.getContext("2d");
+        music = new Audio("assets/music.mp3");
+        music.volume = 0.3;
+        hero = new Image();
+        enemy = new Image();
+        bg = new Image();
+        fProj = new Image();
+        eProj = new Image();
+        boom = new Audio("assets/boom.wav");
+        boom.volume = 0.2;
+        enemy.src = "assets/Ship_5.png";
+        bg.src = "assets/space_bg.jpg";
+        fProj.src = "assets/f_projectile.webp";
+        eProj.src = "assets/e_projectile.png";
+        scores = [];
+        enemyBox = new Array(5);
+        for (let i = 0; i < enemyBox.length; i++) {
+            enemyBox[i] = new Array(4);
         }
         
+        refreshRate = 0; // Set the refresh rate (in milliseconds)
+
+        document.addEventListener('keydown',function(event){ // Check if the key has been pressed, if so signal the main loop that the ship is moving in a direction
+            if(event.key === "ArrowUp"){
+                u=1;
+            }
+            if(event.key === "ArrowDown"){
+                d=1;
+            }
+            if(event.key === "ArrowLeft"){
+                l=1;
+            }
+            if(event.key === "ArrowRight"){
+                r=1;
+            }
+            if (event.key === chosen) {trigger = true} 
+        })
+        
+        document.addEventListener('keyup',function(event){ // Once a key is no longer pressed remove the command for the main loop that signals movement
+            if(event.key === "ArrowUp"){
+                u=0;
+            }
+            if(event.key === "ArrowDown"){
+                d=0;
+            }
+            if(event.key === "ArrowLeft"){
+                l=0;
+            }
+            if(event.key === "ArrowRight"){
+                r=0;
+            }
+            if (event.key === chosen) {trigger = false} 
+        })
     }
+
+    function setGameStartVars(){
+        reset = false;
+        music.currentTime = 0;
+        y = canvas.height-50;
+        x = 524/2;
+        weaponTimer = 0;
+        trigger = false;
+        done = false;
+        u = 0;
+        d = 0;
+        l = 0;
+        r = 0;
+        enemyShots = []
+        heroShots = [];
+        enemiesCount = 20;
+        eboxX = 0;
+        eboxY = 0;
+        score = 0;
+        movei = 0;
+        for (let i = 0; i < enemyBox.length; i++) {
+            for (let j = 0; j < enemyBox[0].length; j++) {
+                enemyBox[i][j] = true;
+            }
+        }
+        startTime = null;
+        speedup = 1;
+        seconds = 0;
+        minutes = 0;
+    }
+    
+    var whatshot = 0;
+
+
+
+
+
     // Set the refresh rate (in milliseconds)
-    var refreshRate = 0;
-    var startTime;
-    var speedup = 1;
-            let seconds = 0;
-            let minutes = 0;
     
     // Define the game loop function
     function gameLoop() {
-
+        music.play()
         if (!startTime){startTime = performance.now();}
         speedup = 1 + Math.floor((performance.now() - startTime)/1000/5)*0.3
         if (speedup > 2.2) {speedup = 2.2; console.log("max")}
@@ -291,14 +369,14 @@ $(document).ready(function () {
             this.x = x;
             this.y = y;
             this.update = function() {
-              if (this.type == "text") {
-                ctx.font = this.width + " " + this.height;
-                ctx.fillStyle = color;
-                ctx.fillText(this.text, this.x, this.y);
-              } else {
-                ctx.fillStyle = color;
-                ctx.fillRect(this.x, this.y, this.width, this.height);
-              }
+                if (this.type == "text") {
+                    ctx.font = this.width + " " + this.height;
+                    ctx.fillStyle = color;
+                    ctx.fillText(this.text, this.x, this.y);
+                } else {
+                    ctx.fillStyle = color;
+                    ctx.fillRect(this.x, this.y, this.width, this.height);
+                }
             }
         }
         myScore = new component("30px", "Consolas", "red", 350, 40, "text");
@@ -465,11 +543,11 @@ $(document).ready(function () {
         heroShots = heroShots.filter(shot => !shot.kill)
         
         // Schedule the next frame
-        if (lives != 0 && minutes < time && score<250){
+        if (lives != 0 && minutes < time && score<250 && !reset){
             setTimeout(gameLoop, refreshRate);
             startButton.hidden = true;
         }
-        else {done = true;}
+        else if (!reset){done = true;}
         // if(score == 250){
         //     gameOver(score,minutes,lives);
         // }
@@ -489,13 +567,15 @@ $(document).ready(function () {
                 }
             }, 1000);
         }
+        
         if(done){
             gameOver(score,minutes,lives);
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
         }
-
 
     }
     function gameOver(score,time,lifes){
+        music.pause();
         scores.push(score);
         scores.sort();
         var table = document.getElementById("scoretable");
@@ -511,88 +591,46 @@ $(document).ready(function () {
             name.innerHTML = curruser["first"] + curruser["last"];
             num.innerHTML = scores[i];
         }
+        const allDivs = document.querySelectorAll(".shipCard");
+        allDivs.forEach(div => {
+            div.style.backgroundColor = "white";
+        })
         $('#game').fadeOut();
         $('#scoreboard').delay(500).show(0);
 
 
 
     }
-    // function newGame(){
-    //     $('#scoreboard').fadeOut();
-    //     $('#conf').delay(500).show(0);
-    //     score = 0;
-    //     minutes = 0;
-    // }
-    // $("#newGame").click(newGame());
-    // Check if the key has been pressed, if so signal the main loop that the ship is moving in a direction
-    function setupGameListeners(){
-        document.addEventListener('keydown',function(event){
-            if(event.key === "ArrowUp"){
-                u=1;
-            }
-            if(event.key === "ArrowDown"){
-                d=1;
-            }
-            if(event.key === "ArrowLeft"){
-                l=1;
-            }
-            if(event.key === "ArrowRight"){
-                r=1;
-            }
-            if (event.key === chosen) {trigger = true} 
-        })
-        // Once a key is no longer pressed remove the command for the main loop that signals movement
-        document.addEventListener('keyup',function(event){
-            if(event.key === "ArrowUp"){
-                u=0;
-            }
-            if(event.key === "ArrowDown"){
-                d=0;
-            }
-            if(event.key === "ArrowLeft"){
-                l=0;
-            }
-            if(event.key === "ArrowRight"){
-                r=0;
-            }
-            if (event.key === chosen) {trigger = false} 
-        })
-    }
-
-
-    // check for fire button
-
-    // Start the game loop
-    startButton.onclick = gameLoop;
-    function a(){}
-    function detectEnemyCollision(ex, ey, px, py) {
-        // Check for horizontal overlap
-        if (thisX + thisWidth >= otherX && thisX <= otherX + otherWidth) {
-          // Check for vertical overlap
-          if (thisY + thisHeight >= otherY && thisY <= otherY + otherHeight) {
-            // The objects are colliding
-            return true;
-          }
-        }
-        return false;
-      }
+    $("#resetGame").click(function(){
+        reset = true;
+        $('#game').fadeOut();
+        music.pause();
+        $('#conf').delay(500).show(0);
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        score = 0;
+        minutes = 0;
+    });
+    $("#newGame").click(function(){
+        $('#scoreboard').fadeOut();
+        $('#conf').delay(500).show(0);
+        score = 0;
+        minutes = 0;
+    });
     
-    function detectCollision(hx,hy,px,py){      
-    // Check for collision
-    if (
-        px + 14 >= hx &&
-        px <= hx + 32 &&
-        py + 36 >= hy &&
-        py <= hy + 32
-        ){
-        return true; // collision detected
-        } 
-    else {
-        return false;
-        }
+    function detectCollision(hx,hy,px,py){ // Check for collision
+        if (
+            px + 14 >= hx &&
+            px <= hx + 32 &&
+            py + 36 >= hy &&
+            py <= hy + 32
+            ){
+            return true; // collision detected
+            } 
+        else {
+            return false; // no collision detected
+            }
     }
 
-    // Start the game loop
-    startButton.onclick = gameLoop;
+    startButton.onclick = gameLoop; // Start the game loop
 });
 
