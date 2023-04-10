@@ -501,7 +501,7 @@ $(document).ready(function () {
         enemyShots = enemyShots.filter(shot => shot.active)
         if (enemiesCount != 0 && enemyShots.length < 2){
             var flag = false;
-            for (const shot of enemyShots){if (shot.y<600) {flag = true;}}
+            for (const shot of enemyShots){if (shot.y<500) {flag = true;}}
             if (!flag){
                 var shiprow = Math.floor(Math.random()*3.9);
                 var shipcol = Math.floor(Math.random()*4.9);
@@ -520,8 +520,8 @@ $(document).ready(function () {
         // moving logic
         y+=(d-u)*speed;
         x+=(r-l)*speed;
-        if(y>=790){y=790;}
-        if(y<600){y=600;}
+        if(y>=690){y=690;}
+        if(y<550){y=550;}
         if(x>=525){x=525;}
         if(x<0){x=0;}
 
@@ -548,7 +548,7 @@ $(document).ready(function () {
             shot.x+=shot.v*speedup;
             shot.y-=5*Math.sqrt(speedup);
             ctx.drawImage(fProj,shot.x,shot.y)
-            if( shot.y<0 || shot.x>=540 || shot.x<0 || shot.y>860){shot.kill = true}
+            if( shot.y<0 || shot.x>=540 || shot.x<0 || shot.y>760){shot.kill = true}
         }
         heroShots = heroShots.filter(shot => !shot.kill)
         
