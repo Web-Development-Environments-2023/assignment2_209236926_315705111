@@ -8,6 +8,25 @@ body{
     background-color:rgb(194, 15, 194);
     align-content: center;
 }
+#header{
+    margin: auto;
+    width: 60%;
+    background-image: url("assets/plate.png");
+    text-align: center;
+}
+#header-text{
+    font-family: "Arial", sans-serif;
+    color: #f2f2f2;
+    font-size: 60px;
+    display: inline-block;
+    vertical-align: middle;
+}
+#header-logo{
+    width: 60px;
+    height: 60px;
+    display: inline-block;
+    vertical-align: middle;
+}
 #login {
     display: flex;
     flex-direction: column;
