@@ -369,14 +369,16 @@ $(document).ready(function () {
             this.x = x;
             this.y = y;
             this.update = function() {
-                if (this.type == "text") {
-                    ctx.font = this.width + " " + this.height;
-                    ctx.fillStyle = color;
-                    ctx.fillText(this.text, this.x, this.y);
-                } else {
-                    ctx.fillStyle = color;
-                    ctx.fillRect(this.x, this.y, this.width, this.height);
-                }
+                scoreText = $("#score");
+                scoreText.html = this.text;
+                // if (this.type == "text") {
+                //     ctx.font = this.width + " " + this.height;
+                //     ctx.fillStyle = color;
+                //     ctx.fillText(this.text, this.x, this.y);
+                // } else {
+                //     ctx.fillStyle = color;
+                //     ctx.fillRect(this.x, this.y, this.width, this.height);
+                // }
             }
         }
         myScore = new component("30px", "Consolas", "red", 350, 40, "text");
@@ -578,9 +580,13 @@ $(document).ready(function () {
         music.pause();
         scores.push(score);
         scores.sort();
+        scores.reverse();
         var table = document.getElementById("scoretable");
-        while(table.length > 1){
+        var rowCount = $('#scoretable tr').length;
+        console.log(rowCount);
+        for (let row = 1; row < rowCount; row++) {
             table.deleteRow(-1);
+            
         }
         for (let i = 0; i < scores.length; i++) {
             var row = table.insertRow(-1);
