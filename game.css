@@ -1,19 +1,30 @@
 .page {
     text-align: center;
     align-items: center;
-    background-color: rgb(22, 207, 207);
-    height: 80vh;
-}
-body{
-    background-color:rgb(194, 15, 194);
-    align-content: center;
+    background-color: #f2f2f2;
+    height: 90vh;
 }
 #header{
     margin: auto;
+    margin-bottom: 1%;
     width: 60%;
     background-image: url("assets/plate.png");
     text-align: center;
 }
+#footer{
+    margin-top: -2%;
+    border-radius: 15px;
+    width: 100%;
+    text-align: center;
+    background-color: rgb(74, 110, 110);
+}
+body{
+    margin-top: 0%;
+    margin-bottom: 0%;
+    background-color: black;
+    align-content: center;
+}
+
 #header-text{
     font-family: "Arial", sans-serif;
     color: #f2f2f2;
@@ -187,6 +198,7 @@ img {
 
 button {
     padding: 10px;  
+}#theCanvas{
 }
 #scoreboard{
     background-image: url(assets/header_logo.gif);
