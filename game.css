@@ -169,3 +169,9 @@ img {
 button {
     padding: 10px;  
 }
+/* #scoretable{
+    border: 1px solid black;
+} */
+table, td {
+    border: 1px solid black;
+}

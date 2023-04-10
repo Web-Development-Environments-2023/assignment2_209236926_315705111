@@ -98,6 +98,7 @@ $(document).ready(function () {
         if (pwok == true && fnok == true && lnok == true){
             // let obj = new user(uname,pw1,fname,lname,email);
             let obj = {username:uname,password:pw1,first:fname,last:lname,email:email};
+
             console.log(email);
             users.push(obj);
             console.log(users);
@@ -109,24 +110,25 @@ $(document).ready(function () {
         }
         
     });
+    var curruser;
     $('#login_submit').click(function(){
         let uname = $('#username').val();
         let pw1 = $('#password').val().trim();
-        let user = "pishoto";
+        curruser = "pishoto";
         if (uname && pw1){
             console.log("hallo");
             users.forEach(element => {
                 if(element["username"] == uname){
                     console.log("hello");
-                    user = element;
+                    curruser = element;
                 }
             });
-            if(pw1 == user["password"]){
+            if(pw1 == curruser["password"]){
                 $('#login').fadeOut();
                 $('#conf').delay(500).show(0);
             }
             else{
-                window.alert(user);
+                window.alert(curruser);
             }
         } 
     });
@@ -144,6 +146,9 @@ $(document).ready(function () {
         start = true;
         setupGameListeners();
     })
+    let timeInterval;
+    var time = $('#gametime').find(":selected").val();
+
 
 
     
@@ -233,6 +238,7 @@ $(document).ready(function () {
     eProj.src = "assets/e_projectile.png";
 
     var start = false;
+    var done = false;
     var u = 0;
     var d = 0;
     var l = 0;
@@ -249,6 +255,7 @@ $(document).ready(function () {
     var score = 0;
     var myScore;
     var movei = 0;
+    var scores = [];
     for (let i = 0; i < enemyBox.length; i++) {
         enemyBox[i] = new Array(4);
     }
@@ -262,7 +269,8 @@ $(document).ready(function () {
     var refreshRate = 0;
     var startTime;
     var speedup = 1;
-
+            let seconds = 0;
+            let minutes = 0;
     
     // Define the game loop function
     function gameLoop() {
@@ -457,15 +465,65 @@ $(document).ready(function () {
         heroShots = heroShots.filter(shot => !shot.kill)
         
         // Schedule the next frame
-        
-        if (lives != 0){
+        if (lives != 0 && minutes < time && score<250){
             setTimeout(gameLoop, refreshRate);
             startButton.hidden = true;
         }
-        //else {gameOver();}
+        else {done = true;}
+        // if(score == 250){
+        //     gameOver(score,minutes,lives);
+        // }
+
+        timer = () =>{
+
+            timeInterval = setInterval(function() {
+                seconds += 1;
+                if(seconds == 60){
+                    minutes += 1;
+                }
+                if(minutes == time){
+                    seconds = 0;
+                    minutes = 0;
+                    done = true;
+                    clearInterval(timeInterval);
+                }
+            }, 1000);
+        }
+        if(done){
+            gameOver(score,minutes,lives);
+        }
 
 
     }
+    function gameOver(score,time,lifes){
+        scores.push(score);
+        scores.sort();
+        var table = document.getElementById("scoretable");
+        while(table.length > 1){
+            table.deleteRow(-1);
+        }
+        for (let i = 0; i < scores.length; i++) {
+            var row = table.insertRow(-1);
+            var place = row.insertCell(0);
+            var name = row.insertCell(1);
+            var num = row.insertCell(2);
+            place.innerHTML = i+1;
+            name.innerHTML = curruser["first"] + curruser["last"];
+            num.innerHTML = scores[i];
+        }
+        $('#game').fadeOut();
+        $('#scoreboard').delay(500).show(0);
+
+
+
+    }
+    function newGame(){
+        $('#scoreboard').fadeOut();
+        $('#conf').delay(500).show(0);
+        score = 0;
+        minutes = 0;
+    }
+    $("#newGame").click(newGame());
     // Check if the key has been pressed, if so signal the main loop that the ship is moving in a direction
     function setupGameListeners(){
         document.addEventListener('keydown',function(event){

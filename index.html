@@ -122,7 +122,17 @@
                     </div>
                     </div>
                 <p>Press the button you want to shoot with</p>
-                <input type="number" name="time" id="gametime">
+                <select name="time" id="gametime">
+                    <option value="2">2 minutes</option>
+                    <option value="3">3 minutes</option>
+                    <option value="4">4 minutes</option>
+                    <option value="5">5 minutes</option>
+                    <option value="6">6 minutes</option>
+                    <option value="7">7 minutes</option>
+                    <option value="8">8 minutes</option>
+                    <option value="9">9 minutes</option>
+                    <option value="10">10 minutes</option>
+                </select>
 
                 &nbsp;
                 <button id="shootChoose">click me to choose</button>
@@ -139,7 +149,17 @@
                 <input id="startButton" type="button" value="Start Game">
             </p>
         </div>
-        <!-- <div></div> -->
+        <div id="scoreboard" class="pages" style="display: none;">
+            <table id="scoretable">
+                <tr>
+                    <th>Place</th>
+                    <th>Name</th>
+                    <th>Score</th>
+                </tr>
+            </table>
+            <br>
+            <input id="newGame" type="button" value="Start Game">
+        </div>
 
        <!-- The Modal -->
        <div id="myModal" class="modal">
