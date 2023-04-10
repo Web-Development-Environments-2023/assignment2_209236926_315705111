@@ -15,7 +15,6 @@
    </head>
    <body>
     <div id="header">
-        <div id="lifes">LIFES: 0</div>
         <div id="header-text">Spacing Invasions</div>
         <img id="header-logo" src="assets/header_logo.gif" alt="Example GIF">
 
@@ -152,8 +151,10 @@
        
         <div id="game" class="page" style="display: none;">
             <div id="canvas">
-            <div id="score">SCORE: 0</div>
-            <canvas id="theCanvas" width="560" height="820"></canvas>&nbsp;
+            <div id="timer" class="child" style="display: none;">Time: 0</div>
+            <canvas id="theCanvas" width="560" height="820" class="child"></canvas>
+            <div id="lifes" class="child" style="display: none;">LIFES: 0</div>
+            <div id="score" class="child" style="display: none;">SCORE: 0</div>
             </div>
             <p>
                 <input id="startButton" type="button" value="Start Game">
