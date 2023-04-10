@@ -199,6 +199,9 @@ img {
 button {
     padding: 10px;  
 }
+#theCanvas{
+    margin-top: 0.5%;
+}
 #scoreboard{
     background-image: url(assets/header_logo.gif);
     background-repeat: no-repeat;
@@ -218,6 +221,7 @@ table, td,th {
     border: 1px solid black;
 }
 .child{
+    margin-top: 0.5%;
     display: inline-block;
     vertical-align: top;
 }
