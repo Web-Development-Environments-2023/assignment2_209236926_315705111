@@ -195,20 +195,17 @@ $(document).ready(function () {
         })
     })
     document.getElementById("shipCardButton1").addEventListener("click", function(){
-        hero.src = "assets/Ship_1.png";
         speed = 1;
         weaponCooldown = 50;
         lives = 3;
     })
     document.getElementById("shipCardButton2").addEventListener("click", function(){
-        hero.src = "assets/Ship_2.png";
         speed = 1.5;
         weaponCooldown = 100;
         lives = 3;
 
     })
     document.getElementById("shipCardButton3").addEventListener("click", function(){
-        hero.src = "assets/Ship_3.png";
         speed = 1;
         weaponCooldown = 100;
         lives = 4;
@@ -261,13 +258,21 @@ $(document).ready(function () {
         music = new Audio("assets/music.mp3");
         music.volume = 0.3;
         hero = new Image();
-        enemy = new Image();
+        enemy1 = new Image();
+        enemy1.src = "assets/Ship_2.png";
+        enemy2 = new Image();
+        enemy2.src = "assets/Ship_3.png";
+        enemy3 = new Image();
+        enemy3.src = "assets/Ship_4.png";
+        enemy4 = new Image();
+        enemy4.src = "assets/Ship_5.png";
+        enemyImages = [enemy1,enemy2,enemy3,enemy4]
         bg = new Image();
         fProj = new Image();
         eProj = new Image();
         boom = new Audio("assets/boom.wav");
         boom.volume = 0.2;
-        enemy.src = "assets/Ship_5.png";
+        hero.src = "assets/Ship_1.png";
         bg.src = "assets/space_bg.jpg";
         fProj.src = "assets/f_projectile.webp";
         eProj.src = "assets/e_projectile.png";
@@ -422,7 +427,7 @@ $(document).ready(function () {
         for (let i = 0; i < enemyBox.length; i++) {
             for (let j = 0; j < enemyBox[0].length; j++) {
                 if(enemyBox[i][j]){
-                    ctx.drawImage(enemy,eboxX + i*50,eboxY + j*50);
+                    ctx.drawImage(enemyImages[j],eboxX + i*50,eboxY + j*50);
                 }
             }
         }
