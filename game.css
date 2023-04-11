@@ -57,6 +57,7 @@ body{
     border: none;
     font-size: 24px;
     cursor: pointer;
+    color: white;
 }
 
 .close-button:hover {

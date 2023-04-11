@@ -25,6 +25,9 @@ $(document).ready(function () {
     var pwok = false;
     var fnok = false;
     var lnok = false;
+    var valid = false;
+    var emailok = false;
+    var dateok = false;
     $('#pw1Reg').keyup(function(){
         let pw1 = $('#pw1Reg').val().trim();
         if(pw1.length < 8){
@@ -33,16 +36,18 @@ $(document).ready(function () {
         else{
             if ((pw1.match(number) && pw1.match(alphabets))) {
 			    $('#password-strength-status1').html("Strong");
+                valid = true;
             }
             else{
                 $('#password-strength-status1').html("please use numbers and characters");
+                valid = false;
             }
         }
     });
     $('#pw2Reg').keyup(function(){
         let pw2 = $('#pw2Reg').val().trim();
         let pw1 = $('#pw1Reg').val().trim();
-        if(pw1 != pw2){
+        if(pw1 != pw2 || valid == false){
             $('#password-strength-status2').html("does not match the password above");
             pwok = false;
         }
@@ -92,23 +97,45 @@ $(document).ready(function () {
         this.last = last;
         this.email = email
     }
+    $(".close-button").click((function(){
+        $(this).closest('.page').fadeOut();
+        $('#landing').delay(500).show(0);
+        $('.inlog').val("");
+        $('.inreg').val("");
+    }))
+
     $('#register_submit').click(function(){
         let uname = $('#userReg').val();
         let pw1 = $('#pw1Reg').val().trim();
         let fname = $('#fnameReg').val().trim();
         let lname = $('#lnameReg').val().trim();
         let email = $('#emailReg').val().trim();
-
-
-        if (pwok == true && fnok == true && lnok == true){
-            // let obj = new user(uname,pw1,fname,lname,email);
-            let obj = {username:uname,password:pw1,first:fname,last:lname,email:email};
-
-            console.log(email);
-            users.push(obj);
+        // var date = document.get
+        var date = new Date($('#date').val());
+        var day = date.getDate();
+        var month = date.getMonth() + 1;
+        var year = date.getFullYear();
+        // alert([day, month, year].join('/'));
+        if(email.indexOf("@") != -1){
+            emailok = true;
+        }
+        if(!(Number.isNaN(day) || Number.isNaN(month) || Number.isNaN(year)))
+        {
+            dateok = true;
+        }
+        if (pwok == true && fnok == true && lnok == true && emailok == true && dateok == true){
+            let obj = {username:uname,password:pw1,first:fname,last:lname,email:email,date:[day, month, year].join('/')};
             console.log(users);
+            users.push(obj);
             $('#register').fadeOut();
             $('#landing').delay(500).show(0);
+            pwok = false;
+            fnok = false;
+            lnok = false;
+            valid = false;
+            emailok = false;
+            dateok = false;
+            $('.inreg').val("");
         }
         else{
             window.alert("attempt to register failed");
@@ -121,10 +148,8 @@ $(document).ready(function () {
         let pw1 = $('#password').val().trim();
         curruser = "pishoto";
         if (uname && pw1){
-            console.log("hallo");
             users.forEach(element => {
                 if(element["username"] == uname){
-                    console.log("hello");
                     curruser = element;
                 }
             });
@@ -132,6 +157,7 @@ $(document).ready(function () {
                 $('#login').fadeOut();
                 $('#conf').delay(500).show(0);
                 loadInitialState();
+                $('.inlog').val("");
             }
             else{
                 window.alert(curruser);
@@ -506,8 +532,6 @@ $(document).ready(function () {
             if (!flag){
                 var shiprow = Math.floor(Math.random()*3.9);
                 var shipcol = Math.floor(Math.random()*4.9);
-                console.log(shiprow);
-                console.log(shipcol);
                 while(enemyBox[shiprow][shipcol] == false){
                     shiprow = Math.floor(Math.random(3)*3.9);
                     shipcol = Math.floor(Math.random(4)*4.9);
@@ -594,7 +618,6 @@ $(document).ready(function () {
         scores.reverse();
         var table = document.getElementById("scoretable");
         var rowCount = $('#scoretable tr').length;
-        console.log(rowCount);
         for (let row = 1; row < rowCount; row++) {
             table.deleteRow(-1);
             
