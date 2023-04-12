@@ -611,7 +611,7 @@ $(document).ready(function () {
         }
 
     }
-    function gameOver(score,time,lifes){
+    function gameOver(score,endtime,lifes){
         music.pause();
         scores.push(score);
         scores.sort();
@@ -635,6 +635,24 @@ $(document).ready(function () {
         allDivs.forEach(div => {
             div.style.backgroundColor = "white";
         })
+        if(lifes == 0){
+            alert("You Lost");
+        }
+        else{
+            if(endtime == time){
+                if(score<100){
+                    alert("you can do better than:" + score + "points");
+                }
+                else{
+                    if(score == 250){
+                        alert("Champion!");
+                    }
+                    else{
+                    alert("Winner!");
+                    }
+                }
+            }
+        }
         $('#game').fadeOut();
         $('#scoreboard').delay(500).show(0);
         $('#score').hide(0);
