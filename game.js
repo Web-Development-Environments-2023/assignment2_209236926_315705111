@@ -11,11 +11,47 @@ $(document).ready(function () {
         $('#landing').fadeIn(1000);             
 
     });   
+    var menclick = 0;
+    $(".tab").click(function(){
+        if(menclick == 0){
+            $(".menu").css("width","80px");
+            $(".bar-button").css("display","block");
+            menclick = 1;
+        }
+        else{
+            $(".menu").css("width","0px");
+            $(".bar-button").css("display","none");
+            menclick = 0;
+        }
+    });
+    function fading(){
+        $('#landing').fadeOut();
+        $('#login').fadeOut();
+        $('#register').fadeOut();
+        $('#game').fadeOut();
+
+    }
+    $("#mWelcome").click(function(){
+        fading();
+        $('#landing').delay(250).show(0);
+    });
+    $("#mLogin").click(function(){
+        fading();
+        $('#login').delay(250).show(0);
+    });
+    $("#mRegister").click(function(){
+        fading();
+        $('#register').delay(250).show(0);
+    });
+    $("#mAbout").click(function(){
+        $('#myModal').css("display","block");
+    });
     $('#login_b').click(function(){
         $('#landing').fadeOut();
         $('#login').delay(500).show(0);
         console.log(users);
     });
+
     $('#register_b').click(function(){
         $('#landing').fadeOut();
         $('#register').delay(500).show(0);

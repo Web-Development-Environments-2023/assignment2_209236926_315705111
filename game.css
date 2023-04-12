@@ -231,7 +231,7 @@ table, td,th {
     position: fixed;
     top: 0;
     left: 0;
-    width: 80px; /* change this value to adjust the menu's width */
+    width: 0px; /* change this value to adjust the menu's width */
     height: 100%;
     background-color: #fff;
     box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
@@ -241,7 +241,8 @@ table, td,th {
     align-items: center;
   }
   
-  .menu button {
+  .bar-button {
+    display: none;
     margin: 10px 0;
     border: none;
     background-color: transparent;
@@ -275,3 +276,6 @@ table, td,th {
     cursor: pointer;
     z-index: 9999;
   }
+  /* #menu{
+    width: 0px;
+  } */
