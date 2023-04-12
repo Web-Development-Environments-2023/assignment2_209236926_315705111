@@ -227,3 +227,51 @@ table, td,th {
     display: inline-block;
     vertical-align: top;
 }
+.menu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 80px; /* change this value to adjust the menu's width */
+    height: 100%;
+    background-color: #fff;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .menu button {
+    margin: 10px 0;
+    border: none;
+    background-color: transparent;
+    color: #333;
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    
+  }
+  
+  .menu button:hover {
+    background-color: #f9f9f9;
+    transform: scale(85%);
+  }
+  .tab {
+    position: absolute;
+    top: 50%;
+    right: -40px; /* change this value to adjust the position of the tab */
+    transform: translateY(-50%);
+    width: 40px;
+    height: 40px;
+    background-color: #fff;
+    border-radius: 50%;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    z-index: 9999;
+  }
