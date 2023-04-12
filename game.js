@@ -696,19 +696,25 @@ $(document).ready(function () {
         $('#timer').hide(0);
 
     }
-    $("#resetGame").click(resetGame);
+    $("#resetGame").click(function(){resetGame()});
         
     function resetGame(full=false){
+        lives = 0;
+        if (music){music.pause();}
         reset = true;
         $('#game').fadeOut();
-        music.pause();
         if (!full){
             $('#conf').delay(500).show(0);
         }
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        if (ctx){ctx.clearRect(0, 0, canvas.width, canvas.height);}
         score = 0;
         mins = 0;
         sec = 0;
+        const allDivs = document.querySelectorAll(".shipCard");
+        allDivs.forEach(div => {
+            div.style.backgroundColor = "white";
+        })
+
     }
     $("#newGame").click(function(){
         $('#scoreboard').fadeOut();
