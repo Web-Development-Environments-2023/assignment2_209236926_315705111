@@ -422,9 +422,9 @@ $(document).ready(function () {
             if (eShot.active && detectCollision(x,y,eShot.x,eShot.y)){
                 lives-=1; 
                 eShot.active=false;
-                var boom = new Audio("assets/boom.wav");
-                boom.volume = 0.2;
-                boom.play()
+                var heroBoom = new Audio("assets/heroDamaged.wav");
+                heroBoom.volume = 0.3;
+                heroBoom.play();
             }
         }
         for (const hShot of heroShots){
