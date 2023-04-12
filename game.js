@@ -30,7 +30,7 @@ $(document).ready(function () {
         $('#login').fadeOut();
         $('#register').fadeOut();
         $('#game').fadeOut();
-
+        lives = 0;
     }
     $("#mWelcome").click(function(){
         fading();
@@ -52,7 +52,16 @@ $(document).ready(function () {
         $('#login').delay(500).show(0);
         console.log(users);
     });
-
+    setInterval(function(){
+        if(lives == 0 && music){
+            music.pause();
+        }
+        else{
+            if(music && playing){
+                music.play();
+            }
+        }
+    },1000);
     $('#register_b').click(function(){
         $('#landing').fadeOut();
         $('#register').delay(500).show(0);
@@ -197,9 +206,13 @@ $(document).ready(function () {
                 $('.inlog').val("");
             }
             else{
-                window.alert(curruser);
+                window.alert("The user does not exist please try to insert right user or register╰（‵□′）╯");
             }
+
         } 
+        else{
+            alert("Please fill both username and password");
+        }
     });
     //Configuration
     var chosen = " ";
@@ -296,6 +309,7 @@ $(document).ready(function () {
     var speed;
     var lives;
     var done;
+    var playing = false;
     var u;
     var d;
     var l;
@@ -425,13 +439,14 @@ $(document).ready(function () {
     // Define the game loop function
     function gameLoop() {
         // timer()
-        music.play()
+        // music.play()
         if (!startTime){startTime = performance.now();}
         speedup = 1 + Math.floor((performance.now() - startTime)/1000/5)*0.3
         if (speedup > 2.2) {speedup = 2.2; console.log("max")}
         // Clear the canvas
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         ctx.drawImage(bg, 0, 0, canvas.width, canvas.height);
+        playing = true;
         let scoreText = document.getElementById("score");
         let lifes = document.getElementById("lifes");
         let timerdis = document.getElementById("timer");
@@ -648,6 +663,8 @@ $(document).ready(function () {
 
     }
     function gameOver(score,endtime,lifes){
+        playing = false;
+        lives = 0;
         music.pause();
         scores.push(score);
         scores.sort();
@@ -675,19 +692,18 @@ $(document).ready(function () {
             alert("You Lost");
         }
         else{
-            if(endtime == time){
+            if(score == 250){
+                alert("Champion!");
+            }
+            else{
                 if(score<100){
-                    alert("you can do better than:" + score + "points");
+                    alert("you can do better than: " + score + " points");
                 }
                 else{
-                    if(score == 250){
-                        alert("Champion!");
-                    }
-                    else{
                     alert("Winner!");
-                    }
                 }
             }
+            
         }
         $('#game').fadeOut();
         $('#scoreboard').delay(500).show(0);
@@ -699,6 +715,7 @@ $(document).ready(function () {
     $("#resetGame").click(function(){resetGame()});
         
     function resetGame(full=false){
+        playing = false;
         lives = 0;
         if (music){music.pause();}
         reset = true;
