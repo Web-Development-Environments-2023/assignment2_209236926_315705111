@@ -188,7 +188,6 @@ $(document).ready(function () {
     
         // this.
     
-    // var b = getElementById("shoo")
     var modal = document.getElementById("myModal");
 
     var btn = document.getElementById("about_b");
@@ -660,7 +659,9 @@ $(document).ready(function () {
         $('#timer').hide(0);
 
     }
-    $("#resetGame").click(function(){
+    $("#resetGame").click(resetGame);
+        
+    function resetGame(){
         reset = true;
         $('#game').fadeOut();
         music.pause();
@@ -669,7 +670,7 @@ $(document).ready(function () {
         score = 0;
         mins = 0;
         sec = 0;
-    });
+    }
     $("#newGame").click(function(){
         $('#scoreboard').fadeOut();
         $('#conf').delay(500).show(0);
