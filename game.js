@@ -25,6 +25,7 @@ $(document).ready(function () {
         }
     });
     function fading(){
+        resetGame(true);
         $('#landing').fadeOut();
         $('#login').fadeOut();
         $('#register').fadeOut();
