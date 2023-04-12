@@ -697,11 +697,13 @@ $(document).ready(function () {
     }
     $("#resetGame").click(resetGame);
         
-    function resetGame(){
+    function resetGame(full=false){
         reset = true;
         $('#game').fadeOut();
         music.pause();
-        $('#conf').delay(500).show(0);
+        if (!full){
+            $('#conf').delay(500).show(0);
+        }
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         score = 0;
         mins = 0;
