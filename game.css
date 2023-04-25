@@ -57,7 +57,7 @@ body{
     border: none;
     font-size: 24px;
     cursor: pointer;
-    color: black;
+    color: rgb(255, 255, 255);
 }
 
 .close-button:hover {
@@ -69,20 +69,28 @@ body{
     margin-bottom: 5%;
     display: block;
 }
-#logo_container{
-    position: absolute;
-    top: 45%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 65%;
-}
-#logo{
-    margin: 0 auto;
-    width: 100%;
+#landing{
+    background-image: url(assets/logo.png);
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
 }
 a{
     line-height: 0.1;
     font-size:6px;
+}
+#login{
+    background-image: url(assets/login.jpg);
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    color: rgb(221, 125, 0);
+    font-size: 25px;
+}
+#register{
+    background-image: url(assets/register.jpg);
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    color: rgb(0, 0, 0);
+    font-size: 25px;
 }
 
 #login_submit {

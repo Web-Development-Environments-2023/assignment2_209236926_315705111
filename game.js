@@ -30,6 +30,8 @@ $(document).ready(function () {
         $('#login').fadeOut();
         $('#register').fadeOut();
         $('#game').fadeOut();
+        $('#scoreboard').fadeOut();
+        $('#conf').fadeOut();
         lives = 0;
     }
     $("#mWelcome").click(function(){
@@ -681,7 +683,7 @@ $(document).ready(function () {
             var name = row.insertCell(1);
             var num = row.insertCell(2);
             place.innerHTML = i+1;
-            name.innerHTML = curruser["first"] + curruser["last"];
+            name.innerHTML = curruser["first"] +" " + curruser["last"];
             num.innerHTML = scores[i];
         }
         const allDivs = document.querySelectorAll(".shipCard");
