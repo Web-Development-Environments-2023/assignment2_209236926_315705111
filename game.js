@@ -230,7 +230,7 @@ $(document).ready(function () {
                 $('.inlog').val("");
             }
             else{
-                window.alert("The user does not exist please try to insert right user or register╰（‵□′）╯");
+                window.alert("The user does not exist please try to insert right user or register");
             }
 
         } 
@@ -504,6 +504,8 @@ $(document).ready(function () {
                 var heroBoom = new Audio("assets/heroDamaged.wav");
                 heroBoom.volume = 0.3;
                 heroBoom.play();
+                y = canvas.height-50;
+                x = 524/2;
             }
         }
         for (const hShot of heroShots){
