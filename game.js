@@ -1,16 +1,38 @@
 $(document).ready(function () {
+    w = screen.width;
+    h = screen.height;
+    console.log("hi")
+    console.log(w,h)
+    if(w<1400 || h <800){
+        $("html").css("zoom", "0.67");
+    }
+    else{
+        $("html").css("zoom", "1");
+    }
     window.addEventListener("keydown", function (event) {
         if (event.key === "ArrowUp" || event.key === "ArrowDown" || event.key === "ArrowLeft" || event.key === "ArrowRight"|| event.key===" ") {
             event.preventDefault();
         }
     });
-    let users = [{username:"a",password:"a",first:"test",last:"test",email:"email@email.email"}];
+    let users = [{username:"p",password:"testuser",first:"test",last:"test",email:"email@email.email"}];
     $('#logo').animate({opacity: 0.01}, 500, function () {
 
         $(this).hide();
         $('#landing').fadeIn(1000);             
 
     });   
+    window.onresize = function(){
+        w = screen.width;
+        h = screen.height;
+        console.log("hi")
+        console.log(w,h)
+        if(w<1400 || h <800){
+            $("html").css("zoom", "0.68");
+        }
+        else{
+            $("html").css("zoom", "1");
+        }
+    };
     var menclick = 0;
     $(".tab").click(function(){
         if(menclick == 0){
@@ -336,6 +358,10 @@ $(document).ready(function () {
     function loadInitialState(){ //everything that is "ill only need to load this once"
         canvas = document.getElementById("theCanvas");
         ctx = canvas.getContext("2d");
+        $("#game").css("height",canvas.height+55)
+        // ctx.scale(0.70,0.70);
+        console.log(screen.width);
+        console.log(screen.height);
         music = new Audio("assets/music.mp3");
         music.volume = 0.3;
         hero = new Image();

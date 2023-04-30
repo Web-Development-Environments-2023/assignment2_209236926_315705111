@@ -4,6 +4,9 @@
     background-color: #f2f2f2;
     height: 93vh;
 }
+/* html{
+    zoom:0.8
+} */
 #header{
     margin: auto;
     margin-bottom: 1%;
@@ -70,6 +73,7 @@ body{
     display: block;
 }
 #landing{
+    color: white;
     background-image: url(assets/logo.png);
     background-repeat: no-repeat;
     background-size: 100% 100%;
@@ -222,6 +226,7 @@ button {
 }
 #scoretable{
     margin: auto;
+    color: white;
     width: 50%;
     height: fit-content;
     /* margin-left: 45%; */
