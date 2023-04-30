@@ -4,6 +4,7 @@
 Game description:<br>
   Before playing the game you need to make an account.<br>
   Once you have an account you can log in and play the game.<br>
+  Note that the navigation menu is pulled out using the tab button on the left side of the screen.<br>
   You have the option of changing the key that you use to shoot before starting the game.<br>
   Every time you start a round you must choose a ship type, with each type having a bonus:<br>
       - Shooting faster<br>
